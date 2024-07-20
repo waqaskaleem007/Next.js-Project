@@ -1,0 +1,113 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_PROD_URL")
+}
+
+model User {
+  id                  String                @id @default(uuid())
+  name                String
+  email               String                @unique
+  password            String
+  role                UserRole?             @default(customer)
+  address             String?
+  profileImg          String?
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @updatedAt
+  reviews             Reviews[]
+  blogs               Blogs[]
+  service             Service[]
+
+  @@map("users")
+}
+
+model Service {
+  id               String   @id @default(uuid())
+  appointment_date DateTime
+  userId           String
+  user             User     @relation(fields: [userId], references: [id])
+  deviceType       String
+  issueDescription String
+  technician                String?
+  estimated_completion_time DateTime?
+  pickup_date               DateTime?
+  status                    ServiceStatus @default(scheduled)
+  isPaid                    Boolean?      @default(false)
+  isReady                   Boolean       @default(false)
+  isFixed                   Boolean       @default(false)
+  deviceIssue               String?
+  img                       String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  order     Order[]
+
+  @@map("services")
+}
+
+model Reviews {
+  id          String @id @default(uuid())
+  title       String
+  description String
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("reviews")
+}
+
+model Blogs {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  img         String?
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("blogs")
+}
+
+model Order {
+  id              String   @id @default(uuid())
+  hardware        Int?
+  software        Int?
+  parts           String?
+  technician_bill Int?
+  totalAmount     Int?
+  tax             Int?
+  oversarbation   String?
+  invoiceNumber   String?
+  serviceId       String
+  isPaid          Boolean  @default(false)
+  service         Service  @relation(fields: [serviceId], references: [id])
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@map("orders")
+}
+
+enum UserRole {
+  admin
+  customer
+  super_admin
+}
+
+enum ServiceStatus {
+  in_progress
+  awaiting_parts
+  on_hold
+  ready_for_pickup
+  completed
+  fixed
+  scheduled
+  payment_pending
+  dispatched
+  assignToTechnican
+}

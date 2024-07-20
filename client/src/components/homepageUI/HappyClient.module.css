@@ -1,0 +1,37 @@
+.ourValueDetails {
+    background-color: #fff;
+    border-radius: .5rem;
+    box-shadow: 0 0px 60px 0 rgb(0 0 0 / 10%);
+    padding: 1.3rem 1rem 1rem;
+    transition: all 1s;
+    text-align: center;
+}
+.valueIcon {
+    padding: 0.4rem 0.8rem;
+    font-size: 3rem;
+    color: #fff;
+    border-radius: 0.25rem;
+    border:1px solid red;
+} 
+.ourValueNumber {
+    font-weight: 700;
+    font-size: 2.4rem;
+    color: #457b9d;
+    border:1px solid #457b9d;
+    border-radius: 10px;
+    transition: 0.9s ease-in-out;
+}
+
+.ourValueNumber:hover {
+    font-weight: 700;
+    font-size: 2.4rem;
+    color: #fff;
+    background-color: #457b9d;
+    border-radius: 10px;
+}
+.ourValueTitle {
+    color: #777777;
+    margin: 1.5rem 0 1rem 0;
+    font-weight: 500;
+    font-size: 1.2rem;
+}
